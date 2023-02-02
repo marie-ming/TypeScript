@@ -1,12 +1,35 @@
 /**
  * Let's make a game 🕹
  */
+
+type Arrow = "up" | "down" | "left" | "right";
+
+let position = { x: 0, y: 0 };
+function movee(direction: Arrow) {
+ switch (direction) {
+  case "up":
+   return (position.y += 1);
+   break;
+  case "down":
+   return (position.y -= 1);
+   break;
+  case "left":
+   return (position.x -= 1);
+   break;
+  case "right":
+   return (position.x += 1);
+   break;
+  default:
+   throw Error(`unkown direction: ${direction}`);
+ }
+}
+
 console.log(position); // { x: 0, y: 0}
-move('up');
+movee("up");
 console.log(position); // { x: 0, y: 1}
-move('down');
+movee("down");
 console.log(position); // { x: 0, y: 0}
-move('left');
+movee("left");
 console.log(position); // { x: -1, y: 0}
-move('right');
+movee("right");
 console.log(position); // { x: 0, y: 0}
