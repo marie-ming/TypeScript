@@ -7,17 +7,13 @@
  interface CoffeMaker {
   makeCoffee(shots: number): CoffeeCup;
  }
- interface CommercialCoffeMaker {
-  makeCoffee(shots: number): CoffeeCup;
-  fillCoffeeBeans(beans: number): void;
-  clean(): void;
- }
- class CoffeMachine implements CoffeMaker, CommercialCoffeMaker {
+
+ class CoffeMachine implements CoffeMaker {
   private static BEANS_GRAMM_PER_SHOT: number = 7;
   private coffeeBeans: number = 0;
 
   //항상 처음에 호출됨
-  private constructor(coffeeBeans: number) {
+  constructor(coffeeBeans: number) {
    this.coffeeBeans = coffeeBeans;
   }
 
@@ -66,35 +62,23 @@
   }
  }
 
- //const maker: CoffeMachine = CoffeMachine.makeMachine(32);
- //  maker.fillCoffeeBeans(32);
- //  maker.makeCoffee(2);
-
- //  const maker2: CommercialCoffeMaker = CoffeMachine.makeMachine(32);
- //  maker2.fillCoffeeBeans(32);
- //  maker2.makeCoffee(2);
- //  maker2.clean;
-
- class AmateurUser {
-  constructor(private machine: CoffeMaker) {}
-  makeCoffee() {
-   const coffee = this.machine.makeCoffee(2);
-   console.log(coffee);
+ class CaffeLatteMachine extends CoffeMachine {
+  private steamMilk(): void {
+   console.log("Steaming some milk...");
   }
- }
- class ProBarista {
-  constructor(private machine: CommercialCoffeMaker) {}
-  makeCoffee() {
-   const coffee = this.machine.makeCoffee(2);
-   console.log(coffee);
-   this.machine.fillCoffeeBeans(45);
-   this.machine.clean();
+  makeCoffee(shots: number): CoffeeCup {
+   const coffee = super.makeCoffee(shots);
+   this.steamMilk();
+   return {
+    ...coffee,
+    hasMilk: true,
+   };
   }
  }
 
- const maker: CoffeMachine = CoffeMachine.makeMachine(32);
- const amateur = new AmateurUser(maker);
- const pro = new ProBarista(maker);
- pro.makeCoffee();
- //amateur.makeCoffee();
+ const machine = new CoffeMachine(23);
+ const lattemachine = new CaffeLatteMachine(23);
+ const coffee = lattemachine.makeCoffee(1);
+
+ console.log(coffee);
 }
